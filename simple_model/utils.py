@@ -5,6 +5,7 @@ import typing
 NOT_WORD = re.compile(r'\W')
 SNAKE_CASE = re.compile('([a-z0-9])([A-Z])')
 SNAKE_CASE_AUX = re.compile('(.)([A-Z][a-z]+)')
+_PRIVATE_ATTR_RE = re.compile(r'_[\w\d]+__[\w\d]')
 
 
 def capitalize_first(string: str) -> str:
@@ -49,3 +50,7 @@ def remove_private_keys(d: dict) -> dict:
     return {
         k: v for k, v in d.items() if not k.startswith('__')
     }
+
+
+def is_private_attribute(name):
+    return _PRIVATE_ATTR_RE.match(name) is not None
